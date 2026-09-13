@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Superficies Principales */
+    --background: 240 10% 3.9%; /* #09090b Canvas Fondo */
+    --foreground: 280 10% 90%; /* #e5e1e4 Texto principal */
+
+    --card: 240 9% 10%; /* #18181b Tarjeta de Transmisión */
+    --card-foreground: 280 10% 90%;
+
+    --popover: 240 10% 12%; /* #1f1f24 Modales / Menús */
+    --popover-foreground: 280 10% 90%;
+
+    /* Colores Principales de Acción */
+    --primary: 239 84% 67%; /* #6366f1 Indigo (+ Agregar Partido) */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 9% 14%; /* #222227 Botones secundarios */
+    --secondary-foreground: 280 10% 90%;
+
+    --muted: 240 9% 14%; /* #222227 Inputs / Elementos pasivos */
+    --muted-foreground: 240 5% 65%; /* #a1a1aa */
+
+    --accent: 240 9% 14%;
+    --accent-foreground: 280 10% 90%;
+
+    /* Estados de Alerta y Destructivos */
+    --destructive: 0 84% 60%; /* #ef4444 Rojo Limpiar Todo */
+    --destructive-foreground: 0 0% 100%;
+
+    /* Bordes e Indicadores */
+    --border: 240 6% 16%; /* #27272a Zinc 800 */
+    --input: 240 6% 16%; /* #27272a */
+    --ring: 239 84% 67%; /* #6366f1 Focus outline */
+
+    --radius: 0.25rem; /* Soft Technical Precision (4px) */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Colores de Estado Personalizados (Uso directo con utilidades CSS) */
+:root {
+  /* En Vivo - Emerald */
+  --live: 160 84% 39%; /* #10b981 */
+  --live-bg: rgba(16, 185, 129, 0.15);
+
+  /* En Soporte - Amber */
+  --support: 38 92% 50%; /* #f59e0b */
+  --support-bg: rgba(245, 158, 11, 0.15);
+
+  /* Finalizado / Offline - Zinc */
+  --finished: 240 5% 46%; /* #71717a */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}
+
+/* Clases de utilidad para fuentes monoespaciadas de telemetría */
+.font-telemetry {
+  font-family: var(--font-jetbrains-mono), monospace;
 }
