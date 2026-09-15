@@ -2,6 +2,7 @@ import { Plus, Trash } from "lucide-react";
 import StatusBadge from "@/components/common/StatusBadge";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import TimezoneClock from "../common/TimezoneClock";
 
 const HeaderStatus = [
   { type: "live" },
@@ -28,6 +29,7 @@ export default function Header() {
           </Button>
         </div>
       </div>
+      {/* Parte inferior Header*/}
       <div className="flex h-14 w-full items-center justify-between border-b px-4">
         <div className="flex items-center gap-4">
           <StatusBadge type="total" />
@@ -39,6 +41,7 @@ export default function Header() {
             <StatusBadge key={item.type} type={item.type} />
           ))}
         </div>
+        <TimezoneClock />
       </div>
     </header>
   );
