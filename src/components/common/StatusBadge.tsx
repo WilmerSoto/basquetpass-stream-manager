@@ -44,8 +44,8 @@ const statusStyles: Record<GlobalStatus, BadgeStyle> = {
   },
   total: {
     label: "En Total",
-    bg: "bg-emerald-500/20",
-    textColor: "text-emerald-400",
+    bg: "bg-cyan-500/20",
+    textColor: "text-cyan-400",
     icon: Activity,
   },
 };
@@ -61,7 +61,7 @@ export default function StatusBadge({
 
   return (
     <div
-      className={`flex items-center gap-2 rounded-md px-2 py-1 ${classConfig.bg} ${classConfig.textColor}`}
+      className={`flex h-7 items-center gap-2 rounded-md px-2 py-1 ${classConfig.bg} ${classConfig.textColor}`}
     >
       <IconComponent size={18} />
       <p
