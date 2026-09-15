@@ -61,7 +61,7 @@ export default function StatusBadge({
 
   return (
     <div
-      className={`flex items-center gap-2 rounded-md ${classConfig.bg} ${classConfig.textColor}`}
+      className={`flex items-center gap-2 rounded-md px-2 py-1 ${classConfig.bg} ${classConfig.textColor}`}
     >
       <IconComponent size={18} />
       <p

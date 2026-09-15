@@ -1,5 +1,12 @@
-import { Dot, Plus, Trash, TvMinimalPlay } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import StatusBadge from "./StatusBadge";
+
+const HeaderStatus = [
+  { type: "total" },
+  { type: "live" },
+  { type: "support" },
+  { type: "pending" },
+] as const;
 
 export default function Header() {
   return (
@@ -20,7 +27,9 @@ export default function Header() {
         </div>
       </div>
       <div className="flex h-14 w-full items-center justify-between border-b px-4">
-        <StatusBadge type="total" count={5} />
+        {HeaderStatus.map((item) => (
+          <StatusBadge key={item.type} type={item.type} />
+        ))}
       </div>
     </header>
   );
