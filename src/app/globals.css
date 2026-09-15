@@ -1,70 +1,109 @@
 @import "tailwindcss";
 
+@theme {
+  /* Fuentes */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Capas de Superficie */
+  --color-background: #09090b; /* Canvas Root */
+  --color-foreground: #e5e1e4; /* Texto principal */
+
+  --color-card: #18181b; /* Tarjetas de transmisión */
+  --color-card-foreground: #e5e1e4;
+
+  --color-popover: #1f1f24; /* Modales e inspección */
+  --color-popover-foreground: #e5e1e4;
+
+  /* Acciones Principales */
+  --color-primary: #6366f1; /* Indigo + Agregar Partido */
+  --color-primary-hover: #4f46e5;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #222227; /* Botones y controles pasivos */
+  --color-secondary-foreground: #e5e1e4;
+
+  --color-muted: #222227;
+  --color-muted-foreground: #a1a1aa;
+
+  --color-accent: #222227;
+  --color-accent-foreground: #e5e1e4;
+
+  /* Estado Destructivo / Alerta */
+  --color-destructive: #ef4444; /* Crimson Limpiar Todo */
+  --color-destructive-foreground: #ffffff;
+
+  /* Bordes y Focus */
+  --color-border: #27272a; /* Zinc 800 hairline */
+  --color-border-active: #3f3f46; /* Zinc 700 focus ring */
+  --color-input: #121215;
+  --color-ring: #6366f1;
+
+  /* Estados de Señal Broadcast */
+  --color-live: #10b981; /* Vibrant Emerald */
+  --color-live-bg: rgba(16, 185, 129, 0.15);
+
+  --color-support: #f59e0b; /* Industrial Amber */
+  --color-support-bg: rgba(245, 158, 11, 0.15);
+
+  --color-finished: #71717a; /* Muted Zinc */
+
+  /* Radios de borde (Soft Technical Precision) */
+  --radius-sm: 0.125rem; /* 2px */
+  --radius-DEFAULT: 0.25rem; /* 4px base */
+  --radius-md: 0.375rem; /* 6px */
+  --radius-lg: 0.5rem; /* 8px */
+}
+
 @layer base {
   :root {
-    /* Superficies Principales */
-    --background: 240 10% 3.9%; /* #09090b Canvas Fondo */
-    --foreground: 280 10% 90%; /* #e5e1e4 Texto principal */
-
-    --card: 240 9% 10%; /* #18181b Tarjeta de Transmisión */
+    --background: 240 10% 3.9%;
+    --foreground: 280 10% 90%;
+    --card: 240 9% 10%;
     --card-foreground: 280 10% 90%;
-
-    --popover: 240 10% 12%; /* #1f1f24 Modales / Menús */
+    --popover: 240 10% 12%;
     --popover-foreground: 280 10% 90%;
-
-    /* Colores Principales de Acción */
-    --primary: 239 84% 67%; /* #6366f1 Indigo (+ Agregar Partido) */
+    --primary: 239 84% 67%;
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 240 9% 14%; /* #222227 Botones secundarios */
+    --secondary: 240 9% 14%;
     --secondary-foreground: 280 10% 90%;
-
-    --muted: 240 9% 14%; /* #222227 Inputs / Elementos pasivos */
-    --muted-foreground: 240 5% 65%; /* #a1a1aa */
-
+    --muted: 240 9% 14%;
+    --muted-foreground: 240 5% 65%;
     --accent: 240 9% 14%;
     --accent-foreground: 280 10% 90%;
-
-    /* Estados de Alerta y Destructivos */
-    --destructive: 0 84% 60%; /* #ef4444 Rojo Limpiar Todo */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-
-    /* Bordes e Indicadores */
-    --border: 240 6% 16%; /* #27272a Zinc 800 */
-    --input: 240 6% 16%; /* #27272a */
-    --ring: 239 84% 67%; /* #6366f1 Focus outline */
-
-    --radius: 0.25rem; /* Soft Technical Precision (4px) */
+    --border: 240 6% 16%;
+    --input: 240 6% 16%;
+    --ring: 239 84% 67%;
+    --radius: 0.25rem;
   }
-}
 
-/* Colores de Estado Personalizados (Uso directo con utilidades CSS) */
-:root {
-  /* En Vivo - Emerald */
-  --live: 160 84% 39%; /* #10b981 */
-  --live-bg: rgba(16, 185, 129, 0.15);
-
-  /* En Soporte - Amber */
-  --support: 38 92% 50%; /* #f59e0b */
-  --support-bg: rgba(245, 158, 11, 0.15);
-
-  /* Finalizado / Offline - Zinc */
-  --finished: 240 5% 46%; /* #71717a */
-}
-
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground antialiased font-sans;
-    font-feature-settings:
-      "rlig" 1,
-      "calt" 1;
+    background-color: #09090b;
+    color: #e5e1e4;
   }
 }
 
-/* Clases de utilidad para fuentes monoespaciadas de telemetría */
-.font-telemetry {
-  font-family: var(--font-jetbrains-mono), monospace;
+/* Utilidades Tipográficas*/
+.label-caps {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.timecode-clock {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.02em;
 }
