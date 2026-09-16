@@ -1,7 +1,7 @@
 "use client";
 
 import { AR, CO } from "country-flag-icons/react/3x2";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const TIME_ZONES = [
   { code: "COL", zone: "America/Bogota", Flag: CO },
