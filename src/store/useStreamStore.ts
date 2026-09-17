@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Stream } from "@/types/stream";
+import type { Stream } from "@/types/Stream";
 
 interface StreamStore {
   streams: Stream[];

@@ -1,4 +1,4 @@
-import type { StreamStatus } from "./streamStatus";
+import type { StreamStatus } from "@/types/StreamStatus";
 
 export interface Encoder {
   number: string;

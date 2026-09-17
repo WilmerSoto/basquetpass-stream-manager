@@ -1,4 +1,4 @@
-import type { StreamStatus } from "@/types/streamStatus";
+import type { StreamStatus } from "@/types/StreamStatus";
 import { cn } from "cn";
 import {
   Activity,
