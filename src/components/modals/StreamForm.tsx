@@ -1,4 +1,4 @@
-import type { Encoder } from "@/types/Stream";
+import type { Encoder, Stream } from "@/types/Stream";
 import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { useStreamStore } from "@/store/useStreamStore";
 import { StreamStatus } from "@/types/StreamStatus";
@@ -24,11 +24,17 @@ interface StreamForm {
   encoders?: Encoder[];
 }
 
-export default function AddStreamForm({ onClose }: { onClose?: () => void }) {
+interface StreamFormsProps {
+  onClose?: () => void;
+  initialData?: Stream;
+}
+
+export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
   const addStream = useStreamStore((state) => state.addStream);
+  const updateStream = useStreamStore((state) => state.updateStream);
 
   const { register, control, handleSubmit } = useForm<StreamForm>({
-    defaultValues: {
+    defaultValues: initialData ?? {
       title: "",
       status: "pending",
       link: "",
@@ -48,20 +54,24 @@ export default function AddStreamForm({ onClose }: { onClose?: () => void }) {
   });
 
   const onSubmit = (data: StreamForm) => {
-    const formattedEncoders: Encoder[] = (data.encoders ?? [])
-      .filter((e) => e.url.trim() !== "")
-      .map((e) => ({
-        number: e.number.trim(),
-        url: e.url.trim(),
-      }));
+    if (initialData) {
+      updateStream(initialData.id, data);
+    } else {
+      const formattedEncoders: Encoder[] = (data.encoders ?? [])
+        .filter((e) => e.url.trim() !== "")
+        .map((e) => ({
+          number: e.number.trim(),
+          url: e.url.trim(),
+        }));
 
-    addStream({
-      title: data.title,
-      startTime: data.startTime,
-      status: calculateStreamStatus(data.startTime),
-      link: data.link,
-      encoders: formattedEncoders,
-    });
+      addStream({
+        title: data.title,
+        startTime: data.startTime,
+        status: calculateStreamStatus(data.startTime),
+        link: data.link,
+        encoders: formattedEncoders,
+      });
+    }
 
     onClose?.();
   };

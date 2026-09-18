@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddStreamForm from "@/components/modals/AddStreamForm";
+import StreamForm from "@/components/modals/StreamForm";
 import { useState } from "react";
 
 export default function AddStreamModal() {
@@ -33,7 +33,7 @@ export default function AddStreamModal() {
             Añadir Nueva Transmision
           </DialogTitle>
         </DialogHeader>
-        <AddStreamForm onClose={() => setOpen(false)} />
+        <StreamForm onClose={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );
