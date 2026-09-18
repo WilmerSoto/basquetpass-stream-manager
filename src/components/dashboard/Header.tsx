@@ -1,8 +1,9 @@
 import { Plus, Trash } from "lucide-react";
 import StatusBadge from "@/components/common/StatusBadge";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import TimezoneClock from "../common/TimezoneClock";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import TimezoneClock from "@/components/common/TimezoneClock";
+import AddStreamModal from "@/components/modals/AddStreamModal";
 
 const HeaderStatus = [
   { type: "live" },
@@ -23,10 +24,7 @@ export default function Header() {
             <Trash data-icon="inline-start" />
             Eliminar Todo
           </Button>
-          <Button>
-            <Plus data-icon="inline-start" />
-            Agregar Partido
-          </Button>
+          <AddStreamModal />
         </div>
       </div>
       {/* Parte inferior Header*/}

@@ -37,7 +37,7 @@ const statusStyles: Record<GlobalStatus, BadgeStyle> = {
     icon: ServerCog,
   },
   pending: {
-    label: "Link Pendiente",
+    label: "Pendiente de Inicio",
     bg: "bg-gray-500/20",
     textColor: "text-gray-400",
     icon: RotateCwFadingClock,
