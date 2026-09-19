@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { TriangleAlert, XIcon } from "lucide-react";
+import { Plus, TriangleAlert, XIcon } from "lucide-react";
 import { AR } from "country-flag-icons/react/3x2";
 import StreamScheduleBreakdown from "@/components/common/StreamScheduleBreakdown";
 import {
@@ -108,6 +108,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
                 aria-invalid={fieldState.invalid}
                 placeholder="Ingresa el nombre del partido"
                 autoComplete="off"
+                className="border-primary rounded-md border"
                 required
               />
             </Field>
@@ -127,6 +128,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
                   {...field}
                   aria-invalid={fieldState.invalid}
                   autoComplete="off"
+                  className="border-primary rounded-md border"
                   required
                 />
               </Field>
@@ -154,70 +156,109 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
                 {...field}
                 aria-invalid={fieldState.invalid}
                 placeholder="https://..."
+                className="border-primary rounded-md border"
                 autoComplete="off"
               />
             </Field>
           )}
         />
         {/*Array dinamico de VMs*/}
-        <FieldSet className="bg-card gap-4">
-          <FieldLegend variant="label">Encoder(s)</FieldLegend>
-          <FieldDescription>
-            Info de los encoder(s) a usar. Numero y link de configuración
-          </FieldDescription>
-          <FieldGroup className="gap-4">
-            {fields.map((field, index) => (
-              <Controller
-                key={field.id}
-                name={`encoders.${index}.number`}
-                control={control}
-                render={({ field: controllerField, fieldState }) => (
-                  <Field
-                    orientation={"horizontal"}
-                    data-invalid={fieldState.invalid}
-                  >
-                    <FieldContent>
-                      <InputGroup>
-                        <InputGroupInput
-                          {...controllerField}
-                          id={`form-array-encoder-${index}`}
-                          aria-invalid={fieldState.invalid}
-                          placeholder="100"
-                          type="text"
-                          autoComplete="off"
-                        />
-                        {fields.length > 1 && (
-                          <InputGroupAddon align={"inline-end"}>
-                            <InputGroupButton
-                              type="button"
-                              variant={"ghost"}
-                              size={"icon-xs"}
-                              onClick={() => remove(index)}
-                              aria-label={`Quitar encoder ${index + 1}`}
-                            >
-                              <XIcon />
-                            </InputGroupButton>
-                          </InputGroupAddon>
-                        )}
-                      </InputGroup>
-                      {fieldState.invalid && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </FieldContent>
-                  </Field>
-                )}
-              />
-            ))}
+        <FieldSet className="bg-card gap-4 pb-4">
+          <FieldLegend
+            variant="label"
+            className="bg-card flex w-full items-center justify-between px-4 pt-1.5"
+          >
+            <h1>Encoder(s)</h1>
+            {/* Botón para agregar una nueva fila al array */}
             <Button
               type="button"
-              variant={"outline"}
-              size={"sm"}
+              variant="secondary"
+              size="sm"
+              className="border-primary w-48 border"
               onClick={() => append({ number: "", url: "" })}
             >
+              <Plus />
               Añadir encoder
             </Button>
+          </FieldLegend>
+          <FieldDescription className="px-4">
+            Info de los encoder(s) a usar. Número y link de configuración
+          </FieldDescription>
+
+          <FieldGroup className="gap-4 px-4">
+            {/* .map genera una fila horizontal por cada encoder */}
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex items-start gap-2">
+                {/* Controller 1: Número del Encoder */}
+                <Controller
+                  name={`encoders.${index}.number`}
+                  control={control}
+                  render={({ field: controllerField, fieldState }) => (
+                    <div className="border-primary w-32 rounded-md border">
+                      <Input
+                        {...controllerField}
+                        placeholder="# Ej: 100"
+                        aria-invalid={fieldState.invalid}
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* Controller 2: URL del Encoder */}
+                <Controller
+                  name={`encoders.${index}.url`}
+                  control={control}
+                  render={({ field: controllerField, fieldState }) => (
+                    <div className="border-primary flex-1 rounded-md border">
+                      <Input
+                        {...controllerField}
+                        type="url"
+                        placeholder="https://..."
+                        aria-invalid={fieldState.invalid}
+                      />
+                      {fieldState.error && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </div>
+                  )}
+                />
+
+                {/* Botón de eliminar fila */}
+                {fields.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => remove(index)}
+                    aria-label={`Quitar encoder ${index + 1}`}
+                    className="text-muted-foreground hover:text-destructive shrink-0"
+                  >
+                    <XIcon className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
           </FieldGroup>
         </FieldSet>
+        <Controller
+          name="vmIp"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel>Ip de la Maquina Virtual</FieldLabel>
+              <Input
+                {...field}
+                aria-invalid={fieldState.invalid}
+                placeholder="192.168.1.1"
+                className="border-primary rounded-md border"
+                autoComplete="off"
+              />
+            </Field>
+          )}
+        />
       </FieldGroup>
     </form>
   );

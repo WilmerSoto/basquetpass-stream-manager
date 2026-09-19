@@ -27,7 +27,9 @@ export default function AddStreamModal() {
           </Button>
         }
       />
-      <DialogContent className={"max-h-[90vh] min-w-300 overflow-y-auto"}>
+      <DialogContent
+        className={"bg-accent max-h-[90vh] min-w-300 overflow-y-auto"}
+      >
         <DialogHeader>
           <DialogTitle className={"text-center text-lg font-bold"}>
             Añadir Nueva Transmision
