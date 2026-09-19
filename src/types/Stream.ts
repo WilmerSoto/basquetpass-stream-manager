@@ -12,4 +12,5 @@ export interface Stream {
   link?: string;
   startTime: string;
   encoders?: Encoder[];
+  vmIp?: string;
 }

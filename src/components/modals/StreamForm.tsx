@@ -5,16 +5,26 @@ import { StreamStatus } from "@/types/StreamStatus";
 import { calculateStreamStatus } from "@/utils/streamUtils";
 import {
   Field,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, XIcon } from "lucide-react";
 import { AR } from "country-flag-icons/react/3x2";
 import StreamScheduleBreakdown from "@/components/common/StreamScheduleBreakdown";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { Button } from "@/components/ui/button";
 
 interface StreamForm {
   title: string;
@@ -22,6 +32,7 @@ interface StreamForm {
   link?: string;
   startTime: string;
   encoders?: Encoder[];
+  vmIp?: string;
 }
 
 interface StreamFormsProps {
@@ -40,6 +51,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
       link: "",
       startTime: "18:00",
       encoders: [{ number: "", url: "" }],
+      vmIp: "",
     },
   });
 
@@ -147,6 +159,65 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
             </Field>
           )}
         />
+        {/*Array dinamico de VMs*/}
+        <FieldSet className="bg-card gap-4">
+          <FieldLegend variant="label">Encoder(s)</FieldLegend>
+          <FieldDescription>
+            Info de los encoder(s) a usar. Numero y link de configuración
+          </FieldDescription>
+          <FieldGroup className="gap-4">
+            {fields.map((field, index) => (
+              <Controller
+                key={field.id}
+                name={`encoders.${index}.number`}
+                control={control}
+                render={({ field: controllerField, fieldState }) => (
+                  <Field
+                    orientation={"horizontal"}
+                    data-invalid={fieldState.invalid}
+                  >
+                    <FieldContent>
+                      <InputGroup>
+                        <InputGroupInput
+                          {...controllerField}
+                          id={`form-array-encoder-${index}`}
+                          aria-invalid={fieldState.invalid}
+                          placeholder="100"
+                          type="text"
+                          autoComplete="off"
+                        />
+                        {fields.length > 1 && (
+                          <InputGroupAddon align={"inline-end"}>
+                            <InputGroupButton
+                              type="button"
+                              variant={"ghost"}
+                              size={"icon-xs"}
+                              onClick={() => remove(index)}
+                              aria-label={`Quitar encoder ${index + 1}`}
+                            >
+                              <XIcon />
+                            </InputGroupButton>
+                          </InputGroupAddon>
+                        )}
+                      </InputGroup>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </FieldContent>
+                  </Field>
+                )}
+              />
+            ))}
+            <Button
+              type="button"
+              variant={"outline"}
+              size={"sm"}
+              onClick={() => append({ number: "", url: "" })}
+            >
+              Añadir encoder
+            </Button>
+          </FieldGroup>
+        </FieldSet>
       </FieldGroup>
     </form>
   );
