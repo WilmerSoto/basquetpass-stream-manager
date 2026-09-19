@@ -18,12 +18,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Plus, TriangleAlert, XIcon } from "lucide-react";
 import { AR } from "country-flag-icons/react/3x2";
 import StreamScheduleBreakdown from "@/components/common/StreamScheduleBreakdown";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 
 interface StreamForm {
@@ -82,6 +76,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
         status: calculateStreamStatus(data.startTime),
         link: data.link,
         encoders: formattedEncoders,
+        vmIp: data.vmIp,
       });
     }
 
@@ -259,6 +254,10 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
             </Field>
           )}
         />
+        {/* Botón de Submit */}
+        <Button type="submit" className="w-full">
+          {initialData ? "Guardar Cambios" : "Añadir Transmisión"}
+        </Button>
       </FieldGroup>
     </form>
   );

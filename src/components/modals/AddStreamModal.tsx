@@ -1,5 +1,5 @@
 "use client";
-import { Plus } from "lucide-react";
+import { CalendarCog, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -31,7 +31,12 @@ export default function AddStreamModal() {
         className={"bg-accent max-h-[90vh] min-w-300 overflow-y-auto"}
       >
         <DialogHeader>
-          <DialogTitle className={"text-center text-lg font-bold"}>
+          <DialogTitle
+            className={
+              "flex items-center justify-center gap-2 text-center text-lg font-bold"
+            }
+          >
+            <CalendarCog />
             Añadir Nueva Transmision
           </DialogTitle>
         </DialogHeader>
