@@ -37,7 +37,7 @@ const statusStyles: Record<GlobalStatus, BadgeStyle> = {
     icon: ServerCog,
   },
   pending: {
-    label: "Pendiente de Inicio",
+    label: "Pendiente",
     bg: "bg-gray-500/20",
     textColor: "text-gray-400",
     icon: RotateCwFadingClock,
@@ -61,15 +61,13 @@ export default function StatusBadge({
 
   return (
     <div
-      className={`flex h-7 items-center gap-2 rounded-md px-2 py-1 ${classConfig.bg} ${classConfig.textColor}`}
+      className={cn(
+        `flex h-7 items-center gap-2 rounded-md px-2 py-1 ${classConfig.bg} ${classConfig.textColor}`,
+        isCard && "h-5 text-sm",
+      )}
     >
-      <IconComponent size={18} />
-      <p
-        className={cn(
-          "text-sm",
-          isCard && "font-semibold tracking-wider uppercase",
-        )}
-      >
+      <IconComponent size={isCard ? 15 : 18} />
+      <p className={cn("text-sm", isCard && "text-xs uppercase")}>
         {count !== undefined && `${count} `}
         {classConfig.label}
       </p>

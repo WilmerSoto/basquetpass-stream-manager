@@ -1,11 +1,8 @@
 import type { Encoder, Stream } from "@/types/Stream";
 import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { useStreamStore } from "@/store/useStreamStore";
-import { StreamStatus } from "@/types/StreamStatus";
-import { calculateStreamStatus } from "@/utils/streamUtils";
 import {
   Field,
-  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
@@ -22,7 +19,6 @@ import { Button } from "@/components/ui/button";
 
 interface StreamForm {
   title: string;
-  status: StreamStatus;
   link?: string;
   startTime: string;
   encoders?: Encoder[];
@@ -38,10 +34,9 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
   const addStream = useStreamStore((state) => state.addStream);
   const updateStream = useStreamStore((state) => state.updateStream);
 
-  const { register, control, handleSubmit } = useForm<StreamForm>({
+  const { control, handleSubmit } = useForm<StreamForm>({
     defaultValues: initialData ?? {
       title: "",
-      status: "pending",
       link: "",
       startTime: "18:00",
       encoders: [{ number: "", url: "" }],
@@ -73,7 +68,6 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
       addStream({
         title: data.title,
         startTime: data.startTime,
-        status: calculateStreamStatus(data.startTime),
         link: data.link,
         encoders: formattedEncoders,
         vmIp: data.vmIp,
@@ -89,7 +83,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
       onSubmit={handleSubmit(onSubmit)}
       className="font-mono"
     >
-      <FieldGroup>
+      <FieldGroup className="gap-4.5">
         <Controller
           name="title"
           control={control}

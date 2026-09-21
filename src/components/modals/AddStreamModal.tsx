@@ -28,7 +28,7 @@ export default function AddStreamModal() {
         }
       />
       <DialogContent
-        className={"bg-accent max-h-[90vh] min-w-300 overflow-y-auto"}
+        className={"bg-accent max-h-[95vh] min-w-300 overflow-y-auto"}
       >
         <DialogHeader>
           <DialogTitle

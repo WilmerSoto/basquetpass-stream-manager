@@ -1,4 +1,4 @@
-import { Plus, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import StatusBadge from "@/components/common/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";

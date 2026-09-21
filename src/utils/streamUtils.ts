@@ -11,8 +11,15 @@ export interface StreamTimeline {
   estimatedEnd: TimelineStep;
 }
 
-export function calculateStreamStatus(startTime: string): StreamStatus {
-  const now = new Date();
+export function calculateStreamStatus(
+  startTime: string,
+  link?: string,
+  now: Date = new Date(),
+): StreamStatus {
+  // Sin link siempre es 'pending'
+  if (!link || !link.trim()) {
+    return "pending";
+  }
 
   const formatter = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Argentina/Buenos_Aires",
@@ -25,7 +32,10 @@ export function calculateStreamStatus(startTime: string): StreamStatus {
   const streamTime = new Date(`${todayInArt}T${startTime}:00-03:00`);
   const diffInMinutes = (streamTime.getTime() - now.getTime()) / (1000 * 60);
 
+  // Stream en vivo
   if (diffInMinutes <= 0) return "live";
+
+  // Stream en soporte (2h 10m antes)
   if (diffInMinutes <= SUPPORT_WINDOW_MINUTES) return "support";
 
   return "pending";
