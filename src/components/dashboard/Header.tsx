@@ -2,7 +2,7 @@ import { Trash } from "lucide-react";
 import StatusBadge from "@/components/common/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import TimezoneClock from "@/components/common/TimezoneClock";
+import TimezoneClock from "@/components/dashboard/TimezoneClock";
 import AddStreamModal from "@/components/modals/AddStreamModal";
 
 const HeaderStatus = [
