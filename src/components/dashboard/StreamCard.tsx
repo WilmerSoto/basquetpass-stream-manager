@@ -4,6 +4,7 @@ import StatusBadge from "@/components/common/StatusBadge";
 import { calculateStreamStatus } from "@/utils/streamUtils";
 import TimezoneDisplay from "@/components/common/TimezoneDisplay";
 import StreamCardHeaderDropdown from "@/components/dashboard/StreamCardHeaderDropdown";
+import { useState } from "react";
 
 interface StreamCardProps {
   stream: Stream;
@@ -16,6 +17,11 @@ export default function StreamCard({ stream, currentTime }: StreamCardProps) {
     stream?.link,
     currentTime,
   );
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleRefresh = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
 
   return (
     <Card className="gap-1 border pt-2 pb-0">
@@ -32,12 +38,16 @@ export default function StreamCard({ stream, currentTime }: StreamCardProps) {
             >
               {stream?.title}
             </h3>
-            <StreamCardHeaderDropdown stream={stream} />
+            <StreamCardHeaderDropdown
+              stream={stream}
+              refreshIframe={handleRefresh}
+            />
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-black p-0">
         <iframe
+          key={refreshKey}
           src={"https://www.youtube.com/embed/zNb2ywbybYA?si=kjJURqU2S-WNSa8T"}
           className="block aspect-video h-full max-h-full w-full max-w-full border-0"
           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"

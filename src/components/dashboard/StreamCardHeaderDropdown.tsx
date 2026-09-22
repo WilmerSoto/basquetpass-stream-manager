@@ -13,10 +13,12 @@ import { Bolt, EllipsisVertical, RefreshCw, Trash } from "lucide-react";
 
 interface StreamCardHeaderDropdownProps {
   stream: Stream;
+  refreshIframe: () => void;
 }
 
 export default function StreamCardHeaderDropdown({
   stream,
+  refreshIframe,
 }: StreamCardHeaderDropdownProps) {
   const { openDeleteModal } = useModalStore();
 
@@ -25,9 +27,8 @@ export default function StreamCardHeaderDropdown({
       <DropdownMenuTrigger
         render={
           <Button
-            variant={"outline"}
             size="icon"
-            className="h-8 w-8 p-0 transition-colors hover:bg-white hover:text-white"
+            className="text-foreground h-8 w-8 bg-transparent p-0 hover:bg-black hover:text-white"
           >
             <EllipsisVertical size={19} />
           </Button>
@@ -35,7 +36,7 @@ export default function StreamCardHeaderDropdown({
       ></DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={refreshIframe}>
             <RefreshCw />
             Refrescar
           </DropdownMenuItem>
