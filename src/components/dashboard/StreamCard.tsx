@@ -1,18 +1,8 @@
 import type { Stream } from "@/types/Stream";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import StatusBadge from "@/components/common/StatusBadge";
 import { calculateStreamStatus } from "@/utils/streamUtils";
-import { AR, CO } from "country-flag-icons/react/3x2";
 import TimezoneDisplay from "@/components/common/TimezoneDisplay";
-import { Separator } from "@/components/ui/separator";
 
 interface StreamCardProps {
   stream: Stream;
@@ -34,17 +24,20 @@ export default function StreamCard({
   );
 
   return (
-    <Card className="gap-1 border py-2">
-      <CardHeader className="px-3">
-        <CardTitle className="flex flex-col border-b">
+    <Card className="gap-1 border pt-2 pb-0">
+      <CardHeader className="flex-none px-3">
+        <CardTitle className="flex flex-col gap-0.5 border-b">
           <div className="flex justify-between">
             <StatusBadge variant="card" type={currentStatus} />
             <TimezoneDisplay variant="card" date={stream.startTime} />
           </div>
-          <div className="flex gap-4">
-            <h1 className="text-lg font-semibold text-white">
+          <div className="flex w-full min-w-0 gap-4">
+            <h3
+              className="line-clamp-1 text-center text-sm leading-tight font-semibold"
+              title={stream?.title}
+            >
               {stream?.title}
-            </h1>
+            </h3>
           </div>
         </CardTitle>
       </CardHeader>
@@ -56,7 +49,6 @@ export default function StreamCard({
           allowFullScreen
         ></iframe>
       </CardContent>
-      <CardFooter></CardFooter>
     </Card>
   );
 }
