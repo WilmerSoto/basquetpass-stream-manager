@@ -18,7 +18,6 @@ export default function StreamCard({ stream, currentTime }: StreamCardProps) {
     currentTime,
   );
   const [refreshKey, setRefreshKey] = useState(0);
-
   const handleRefresh = () => {
     setRefreshKey((prev) => prev + 1);
   };

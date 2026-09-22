@@ -88,7 +88,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
           name="title"
           control={control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
+            <Field data-invalid={fieldState.invalid} className="bg-card p-4">
               <FieldLabel>
                 Titulo del Partido <span className="text-destructive">*</span>
               </FieldLabel>
@@ -108,7 +108,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
             name="startTime"
             control={control}
             render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
+              <Field data-invalid={fieldState.invalid} className="w-50">
                 <FieldLabel>
                   Hora del Partido <span className="text-destructive">*</span>
                 </FieldLabel>
@@ -139,7 +139,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
           name="link"
           control={control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
+            <Field data-invalid={fieldState.invalid} className="bg-card p-4">
               <FieldLabel>Link del Stream</FieldLabel>
               <Input
                 {...field}
@@ -236,7 +236,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
           name="vmIp"
           control={control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
+            <Field data-invalid={fieldState.invalid} className="bg-card p-4">
               <FieldLabel>Ip de la Maquina Virtual</FieldLabel>
               <Input
                 {...field}
@@ -249,7 +249,7 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
           )}
         />
         {/* Botón de Submit */}
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="">
           {initialData ? "Guardar Cambios" : "Añadir Transmisión"}
         </Button>
       </FieldGroup>

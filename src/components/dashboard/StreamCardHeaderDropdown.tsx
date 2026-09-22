@@ -20,7 +20,7 @@ export default function StreamCardHeaderDropdown({
   stream,
   refreshIframe,
 }: StreamCardHeaderDropdownProps) {
-  const { openDeleteModal } = useModalStore();
+  const { openDeleteModal, openInfoModal } = useModalStore();
 
   return (
     <DropdownMenu>
@@ -43,7 +43,7 @@ export default function StreamCardHeaderDropdown({
         </DropdownMenuGroup>
         <DropdownMenuSeparator className={"bg-accent"} />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => openInfoModal(stream)}>
             <Bolt />
             Editar
           </DropdownMenuItem>
@@ -51,7 +51,7 @@ export default function StreamCardHeaderDropdown({
             variant="destructive"
             onClick={() => openDeleteModal(stream)}
           >
-            <Trash data-icon="inline-start" />
+            <Trash />
             Eliminar
           </DropdownMenuItem>
         </DropdownMenuGroup>
