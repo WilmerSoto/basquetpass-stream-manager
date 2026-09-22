@@ -26,8 +26,8 @@
   --color-muted: #222227;
   --color-muted-foreground: #a1a1aa;
 
-  --color-accent: #222227;
-  --color-accent-foreground: #e5e1e4;
+  --color-accent: #303036; /* Antes: #222227 */
+  --color-accent-foreground: #ffffff;
 
   /* Estado Destructivo / Alerta */
   --color-destructive: #ef4444; /* Crimson Limpiar Todo */
@@ -69,8 +69,8 @@
     --secondary-foreground: 280 10% 90%;
     --muted: 240 9% 14%;
     --muted-foreground: 240 5% 65%;
-    --accent: 240 9% 14%;
-    --accent-foreground: 280 10% 90%;
+    --accent: 240 6% 20%; /* Antes: 240 9% 14% */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 240 6% 16%;

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import StatusBadge from "@/components/common/StatusBadge";
 import { calculateStreamStatus } from "@/utils/streamUtils";
 import TimezoneDisplay from "@/components/common/TimezoneDisplay";
+import StreamCardHeaderDropdown from "@/components/dashboard/StreamCardHeaderDropdown";
 
 interface StreamCardProps {
   stream: Stream;
@@ -31,13 +32,14 @@ export default function StreamCard({
             <StatusBadge variant="card" type={currentStatus} />
             <TimezoneDisplay variant="card" date={stream.startTime} />
           </div>
-          <div className="flex w-full min-w-0 gap-4">
+          <div className="flex w-full min-w-0 items-center justify-between gap-0">
             <h3
-              className="line-clamp-1 text-center text-sm leading-tight font-semibold"
+              className="line-clamp-1 min-w-0 flex-1 text-center text-sm leading-tight font-semibold"
               title={stream?.title}
             >
               {stream?.title}
             </h3>
+            <StreamCardHeaderDropdown />
           </div>
         </CardTitle>
       </CardHeader>
