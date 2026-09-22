@@ -12,6 +12,7 @@ import StatusBadge from "@/components/common/StatusBadge";
 import { calculateStreamStatus } from "@/utils/streamUtils";
 import { AR, CO } from "country-flag-icons/react/3x2";
 import TimezoneDisplay from "@/components/common/TimezoneDisplay";
+import { Separator } from "@/components/ui/separator";
 
 interface StreamCardProps {
   stream: Stream;
@@ -33,9 +34,9 @@ export default function StreamCard({
   );
 
   return (
-    <Card className="m-5 border">
-      <CardHeader>
-        <CardTitle className="flex flex-col gap-2 border-b">
+    <Card className="gap-1 border py-2">
+      <CardHeader className="px-3">
+        <CardTitle className="flex flex-col border-b">
           <div className="flex justify-between">
             <StatusBadge variant="card" type={currentStatus} />
             <TimezoneDisplay variant="card" date={stream.startTime} />
@@ -47,7 +48,14 @@ export default function StreamCard({
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-black p-0">
+        <iframe
+          src={"https://www.youtube.com/embed/ATuIPAG23P8?si=uMUnss7ajLvbTH_M"}
+          className="block aspect-video h-full max-h-full w-full max-w-full border-0"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          allowFullScreen
+        ></iframe>
+      </CardContent>
       <CardFooter></CardFooter>
     </Card>
   );

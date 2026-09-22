@@ -7,10 +7,13 @@ import type { Stream } from "@/types/Stream";
 import { MonitorOff } from "lucide-react";
 import AddStreamModal from "@/components/modals/AddStreamModal";
 
-function getGridColumnsClass(count: number): string {
-  if (count === 1) return "grid-cols-1";
-  if (count === 2) return "grid-cols-2";
-  return "grid-cols-3";
+function getGridClass(count: number) {
+  if (count <= 1) return "grid-cols-1 grid-rows-1";
+  if (count === 2) return "grid-cols-2 grid-rows-1";
+  if (count === 3) return "grid-cols-3 grid-rows-1";
+  if (count === 4) return "grid-cols-2 grid-rows-2"; // 2x2
+  if (count <= 6) return "grid-cols-3 grid-rows-2"; // 3x2
+  return "grid-cols-3 grid-rows-3"; // 3x3
 }
 
 export default function StreamGrid() {
@@ -62,7 +65,9 @@ export default function StreamGrid() {
   }
 
   return (
-    <div className={`grid gap-4 ${getGridColumnsClass(getAllStreams.length)}`}>
+    <div
+      className={`m-3 grid h-[97vh] gap-2 ${getGridClass(getAllStreams.length)}`}
+    >
       {getAllStreams.map((stream) => (
         <StreamCard
           key={stream.id}

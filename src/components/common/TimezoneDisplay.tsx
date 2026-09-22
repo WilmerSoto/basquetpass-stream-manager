@@ -46,7 +46,7 @@ export default function TimezoneDisplay({
     >
       {TIME_ZONES.map((item) => (
         <div key={item.code} className="flex items-center gap-1">
-          <item.Flag className={isCard ? "w-5" : "w-7"} />
+          <item.Flag className={isCard ? "w-4" : "w-7"} />
           {getTimeValue(item.code, item.zone)}
         </div>
       ))}
