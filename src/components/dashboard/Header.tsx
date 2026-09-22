@@ -16,12 +16,13 @@ const HeaderStatus = [
 // TO DO: Añadir logica de contador para cada Badge
 export default function Header() {
   const openFormModal = useModalStore((state) => state.openFormModal);
+  const openDeleteAllModal = useModalStore((state) => state.openDeleteAllModal);
   return (
     <header className="bg-card flex flex-col">
       <div className="flex h-14 w-full items-center justify-between border-b px-4">
         <p className="text-xl font-extrabold">BASQUETPASS STREAM MANAGER</p>
         <div className="flex gap-5">
-          <Button variant={"destructive"}>
+          <Button variant={"destructive"} onClick={() => openDeleteAllModal()}>
             <Trash data-icon="inline-start" />
             Eliminar Todo
           </Button>
