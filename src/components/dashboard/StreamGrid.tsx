@@ -5,7 +5,7 @@ import { useStreamStore } from "@/store/useStreamStore";
 import { useEffect, useState } from "react";
 import type { Stream } from "@/types/Stream";
 import { MonitorOff } from "lucide-react";
-import AddStreamModal from "@/components/modals/AddStreamModal";
+import AddStreamModal from "@/components/modals/StreamFormModal";
 
 function getGridClass(count: number) {
   if (count <= 1) return "grid-cols-1 grid-rows-1";

@@ -1,32 +1,18 @@
 "use client";
-import { CalendarCog, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CalendarCog } from "lucide-react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import StreamForm from "@/components/modals/StreamForm";
-import { useState } from "react";
+import { useModalStore } from "@/store/useModalStore";
 
 export default function AddStreamModal() {
-  const [open, setOpen] = useState(false);
-
+  const { isFormOpen, streamToEdit, closeFormModal } = useModalStore();
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        render={
-          <Button>
-            <Plus data-icon="inline-start" />
-            Agregar Partido
-          </Button>
-        }
-      />
+    <Dialog open={isFormOpen} onOpenChange={closeFormModal}>
       <DialogContent
         className={"bg-accent max-h-[95vh] min-w-300 overflow-y-auto"}
       >
@@ -37,10 +23,12 @@ export default function AddStreamModal() {
             }
           >
             <CalendarCog />
-            Añadir Nueva Transmision
+            {Boolean(streamToEdit)
+              ? "Editar Transmisión"
+              : "Añadir Transmisión"}
           </DialogTitle>
         </DialogHeader>
-        <StreamForm onClose={() => setOpen(false)} />
+        <StreamForm onClose={() => closeFormModal()} />
       </DialogContent>
     </Dialog>
   );

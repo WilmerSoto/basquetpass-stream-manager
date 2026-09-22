@@ -45,7 +45,7 @@ export default function StreamCard({
       </CardHeader>
       <CardContent className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-black p-0">
         <iframe
-          src={"https://www.youtube.com/embed/ATuIPAG23P8?si=uMUnss7ajLvbTH_M"}
+          src={"https://www.youtube.com/embed/zNb2ywbybYA?si=kjJURqU2S-WNSa8T"}
           className="block aspect-video h-full max-h-full w-full max-w-full border-0"
           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
           allowFullScreen

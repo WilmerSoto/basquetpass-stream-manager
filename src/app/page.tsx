@@ -1,13 +1,13 @@
 import Header from "@/components/dashboard/Header";
 import StreamGrid from "@/components/dashboard/StreamGrid";
+import ModalProvider from "@/components/providers/ModalProvider";
 
 export default function Home() {
   return (
-    <div>
-      <main>
-        <Header />
-        <StreamGrid />
-      </main>
-    </div>
+    <main>
+      <Header />
+      <StreamGrid />
+      <ModalProvider />
+    </main>
   );
 }

@@ -1,9 +1,11 @@
-import { Trash } from "lucide-react";
+"use client";
+
+import { Plus, Trash } from "lucide-react";
 import StatusBadge from "@/components/common/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import TimezoneClock from "@/components/dashboard/TimezoneClock";
-import AddStreamModal from "@/components/modals/AddStreamModal";
+import { useModalStore } from "@/store/useModalStore";
 
 const HeaderStatus = [
   { type: "live" },
@@ -13,18 +15,20 @@ const HeaderStatus = [
 
 // TO DO: Añadir logica de contador para cada Badge
 export default function Header() {
+  const openFormModal = useModalStore((state) => state.openFormModal);
   return (
     <header className="bg-card flex flex-col">
       <div className="flex h-14 w-full items-center justify-between border-b px-4">
-        <p className="font-mono text-xl font-extrabold">
-          BASQUETPASS STREAM MANAGER
-        </p>
+        <p className="text-xl font-extrabold">BASQUETPASS STREAM MANAGER</p>
         <div className="flex gap-5">
           <Button variant={"destructive"}>
             <Trash data-icon="inline-start" />
             Eliminar Todo
           </Button>
-          <AddStreamModal />
+          <Button onClick={() => openFormModal()}>
+            <Plus data-icon="inline-start" />
+            Agregar Partido
+          </Button>
         </div>
       </div>
       {/* Parte inferior Header*/}
