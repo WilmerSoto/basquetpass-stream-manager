@@ -8,16 +8,9 @@ import StreamCardHeaderDropdown from "@/components/dashboard/StreamCardHeaderDro
 interface StreamCardProps {
   stream: Stream;
   currentTime: Date;
-  onDeleteRequest: (id: string, title: string) => void;
-  onEditRequest: (id: string, stream: Stream) => void;
 }
 
-export default function StreamCard({
-  stream,
-  currentTime,
-  onDeleteRequest,
-  onEditRequest,
-}: StreamCardProps) {
+export default function StreamCard({ stream, currentTime }: StreamCardProps) {
   const currentStatus = calculateStreamStatus(
     stream.startTime,
     stream?.link,
@@ -39,7 +32,7 @@ export default function StreamCard({
             >
               {stream?.title}
             </h3>
-            <StreamCardHeaderDropdown />
+            <StreamCardHeaderDropdown stream={stream} />
           </div>
         </CardTitle>
       </CardHeader>

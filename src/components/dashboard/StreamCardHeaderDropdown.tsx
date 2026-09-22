@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,14 +7,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useModalStore } from "@/store/useModalStore";
+import type { Stream } from "@/types/Stream";
 import { Bolt, EllipsisVertical, RefreshCw, Trash } from "lucide-react";
 
-export default function StreamCardHeaderDropdown() {
+interface StreamCardHeaderDropdownProps {
+  stream: Stream;
+}
+
+export default function StreamCardHeaderDropdown({
+  stream,
+}: StreamCardHeaderDropdownProps) {
+  const { openDeleteModal } = useModalStore();
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<EllipsisVertical size={19} className="" />}>
-        Open
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant={"outline"}
+            size="icon"
+            className="h-8 w-8 p-0 transition-colors hover:bg-white hover:text-white"
+          >
+            <EllipsisVertical size={19} />
+          </Button>
+        }
+      ></DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuItem>
@@ -27,8 +46,11 @@ export default function StreamCardHeaderDropdown() {
             <Bolt />
             Editar
           </DropdownMenuItem>
-          <DropdownMenuItem variant="destructive">
-            <Trash />
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => openDeleteModal(stream)}
+          >
+            <Trash data-icon="inline-start" />
             Eliminar
           </DropdownMenuItem>
         </DropdownMenuGroup>

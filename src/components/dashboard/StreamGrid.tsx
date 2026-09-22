@@ -3,9 +3,9 @@
 import StreamCard from "@/components/dashboard/StreamCard";
 import { useStreamStore } from "@/store/useStreamStore";
 import { useEffect, useState } from "react";
-import type { Stream } from "@/types/Stream";
-import { MonitorOff } from "lucide-react";
-import AddStreamModal from "@/components/modals/StreamFormModal";
+import { MonitorOff, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useModalStore } from "@/store/useModalStore";
 
 function getGridClass(count: number) {
   if (count <= 1) return "grid-cols-1 grid-rows-1";
@@ -18,27 +18,7 @@ function getGridClass(count: number) {
 
 export default function StreamGrid() {
   const getAllStreams = useStreamStore((state) => state.streams);
-  const [streamToDelete, setStreamToDelete] = useState<{
-    id: string;
-    title: string;
-  } | null>(null);
-  const deleteStreamById = useStreamStore((state) => state.removeStream);
-  const [streamToEdit, setStreamToEdit] = useState<{
-    id: string;
-    stream: Stream;
-  } | null>(null);
-  const updateStreamById = useStreamStore((state) => state.updateStream);
-
-  function handleDelete(id: string) {
-    if (streamToDelete) {
-      deleteStreamById(id);
-      setStreamToDelete(null);
-    }
-  }
-
-  function handleEdit(id: string, stream: Stream) {
-    updateStreamById(id, stream);
-  }
+  const openFormModal = useModalStore((state) => state.openFormModal);
 
   const [now, setNow] = useState(new Date());
   useEffect(() => {
@@ -58,7 +38,10 @@ export default function StreamGrid() {
             El Grid de Streams esta a la espera de nuevas transmisiones. Puedes
             añadir un nuevo partido con el boton de abajo.
           </p>
-          <AddStreamModal />
+          <Button onClick={() => openFormModal()}>
+            <Plus data-icon="inline-start" />
+            Agregar Partido
+          </Button>
         </div>
       </div>
     );
@@ -69,13 +52,7 @@ export default function StreamGrid() {
       className={`m-3 grid h-[97vh] gap-2 ${getGridClass(getAllStreams.length)}`}
     >
       {getAllStreams.map((stream) => (
-        <StreamCard
-          key={stream.id}
-          stream={stream}
-          currentTime={now}
-          onDeleteRequest={(id, title) => setStreamToDelete({ id, title })}
-          onEditRequest={(id, stream) => setStreamToEdit({ id, stream })}
-        />
+        <StreamCard key={stream.id} stream={stream} currentTime={now} />
       ))}
     </div>
   );
