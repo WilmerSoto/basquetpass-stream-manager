@@ -5,6 +5,7 @@ import { calculateStreamStatus } from "@/utils/streamUtils";
 import TimezoneDisplay from "@/components/common/TimezoneDisplay";
 import StreamCardHeaderDropdown from "@/components/dashboard/StreamCardHeaderDropdown";
 import { useState } from "react";
+import { Link2Off } from "lucide-react";
 
 interface StreamCardProps {
   stream: Stream;
@@ -45,13 +46,27 @@ export default function StreamCard({ stream, currentTime }: StreamCardProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-black p-0">
-        <iframe
-          key={refreshKey}
-          src={stream.link}
-          className="block aspect-video h-full max-h-full w-full max-w-full border-0"
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
+        {stream.link ? (
+          <iframe
+            key={refreshKey}
+            src={stream.link}
+            className="block aspect-video h-full max-h-full w-full max-w-full border-0"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            allowFullScreen
+          ></iframe>
+        ) : (
+          <div>
+            <div className="bg-accent flex flex-col items-center rounded-2xl p-3">
+              <Link2Off className="text-primary" />
+              <p className="text-lg font-bold">
+                Link de Partido no configurado
+              </p>
+              <p className="text-muted-foreground text-sm">
+                Configuralo con el botón de edición
+              </p>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
