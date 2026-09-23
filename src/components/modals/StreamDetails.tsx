@@ -4,24 +4,33 @@ import { Button } from "@/components/ui/button";
 import { AlarmClockCheck, Check, Copy, Database, LinkIcon } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import { AR } from "country-flag-icons/react/3x2";
+import { calculateStreamStatus } from "@/utils/streamUtils";
+import StatusBadge from "@/components/common/StatusBadge";
 
 export default function StreamDetails() {
-  const [copied, setCopied] = useState(false);
+  const { streamForInfo } = useModalStore();
 
+  const currentStatus = streamForInfo
+    ? calculateStreamStatus(
+        streamForInfo.startTime,
+        streamForInfo?.link,
+        new Date(),
+      )
+    : null;
+
+  const [copied, setCopied] = useState(false);
   const handleCopy = (textToCopy: string) => {
     navigator.clipboard.writeText(textToCopy);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-  const { streamForInfo } = useModalStore();
   return (
     <div className="flex flex-col gap-4 font-mono text-base">
       <div className="bg-card flex flex-col gap-2 p-4">
         <h1 className="flex items-center gap-2 font-bold">
           <AlarmClockCheck />
-          Desglose Cronológico - <AR className="w-5" />{" "}
-          {streamForInfo?.startTime}
+          Desglose Cronológico
+          {currentStatus && <StatusBadge variant="card" type={currentStatus} />}
         </h1>
         <StreamScheduleBreakdown
           startTimeArt={streamForInfo?.startTime ?? ""}

@@ -36,7 +36,7 @@ export default function StreamGrid() {
           </h1>
           <p className="text-muted-foreground text-md text-center font-light">
             El Grid de Streams esta a la espera de nuevas transmisiones. Puedes
-            añadir un nuevo partido con el boton de abajo.
+            añadir un nuevo partido con el botón de abajo.
           </p>
           <Button onClick={() => openFormModal()}>
             <Plus data-icon="inline-start" />
