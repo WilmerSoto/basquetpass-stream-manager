@@ -45,7 +45,7 @@ export default function StreamCardHeaderDropdown({
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => openInfoModal(stream)}>
             <Bolt />
-            Editar
+            Info/Editar
           </DropdownMenuItem>
           <DropdownMenuItem
             variant="destructive"

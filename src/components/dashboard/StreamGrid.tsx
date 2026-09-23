@@ -2,10 +2,10 @@
 
 import StreamCard from "@/components/dashboard/StreamCard";
 import { useStreamStore } from "@/store/useStreamStore";
-import { useEffect, useState } from "react";
 import { MonitorOff, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useModalStore } from "@/store/useModalStore";
+import { useCurrentTime } from "@/utils/useCurrentTime";
 
 function getGridClass(count: number) {
   if (count <= 1) return "grid-cols-1 grid-rows-1";
@@ -19,12 +19,7 @@ function getGridClass(count: number) {
 export default function StreamGrid() {
   const getAllStreams = useStreamStore((state) => state.streams);
   const openFormModal = useModalStore((state) => state.openFormModal);
-
-  const [now, setNow] = useState(new Date());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 15000);
-    return () => clearInterval(timer);
-  }, []);
+  const currentTime = useCurrentTime(15000);
 
   if (getAllStreams.length === 0) {
     return (
@@ -52,7 +47,7 @@ export default function StreamGrid() {
       className={`m-3 grid h-[97vh] gap-2 ${getGridClass(getAllStreams.length)}`}
     >
       {getAllStreams.map((stream) => (
-        <StreamCard key={stream.id} stream={stream} currentTime={now} />
+        <StreamCard key={stream.id} stream={stream} currentTime={currentTime} />
       ))}
     </div>
   );
