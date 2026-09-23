@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎥 Multi-Stream Dashboard
 
-## Getting Started
+Un dashboard de alto rendimiento para el monitoreo, gestión y administración de señales de video en tiempo real. Construido con **Next.js (App Router)**, **TypeScript** y **Zustand**.
 
-First, run the development server:
+![Dashboard Preview](./public/screenshots/dashboard-preview.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 📌 Contexto del Proyecto
+
+Esta herramienta fue desarrollada de manera independiente para optimizar el flujo de trabajo en el área de **soporte técnico de señales de partidos de baloncesto en BasquetPass**. Nace de la necesidad de centralizar el monitoreo de las señales en tiempo real y agilizar la gestión de múltiples transmisiones en vivo durante la operación diaria.
+
+## ⚠️ Nota de Privacidad y Seguridad
+
+> **Descargo de responsabilidad:** Este repositorio **NO contiene ni expone** direcciones IP privadas, enlaces de transmisión internos, credenciales ni información confidencial de la empresa.
+>
+> La aplicación funciona exclusivamente como una interfaz de usuario (**Dashboard / UI**) desacoplada. Todos los datos mostrados son ingresados directamente por el usuario o simulados mediante datos de prueba (_mock data_) locales para fines de demostración.
+
+## 🚀 Características Principales
+
+- **Grilla de Transmisiones Dinámica:** Visualización simultánea de múltiples streams de video con reproductores integrados.
+- **Cálculo de Estado en Tiempo Real:** Evaluación del estado (_Pendiente/En Soporte/En Vivo_) basada en la hora de inicio de la transmisión y disponibilidad de la señal. El Estado de cada partido se actualiza de forma automática.
+- **Refresco Eficiente sin Re-renders:** Reinicio de reproductores `iframe` mediante _React Key Remounting_ (manipulación de estado local), evitando re-renderizados innecesarios del layout global. El uso de variables globales ayuda a evitar un _"prop-drilling"_ problemático.
+- **Gestión Centralizada de Modales:** Flujo de modales orquestado mediante Zustand (_Información_, _Edición_, _Añadir_, _Eliminar_ y _ELiminar Todo_), garantizando una experiencia sin superposición de capas (_modal stacking_).
+- **Acciones Rápidas de UI:**
+  - Copiado directo de enlaces/IPs al portapapeles con feedback visual.
+  - Links interactivos a transmisiones externas.
+  - Indicadores visuales (_Badges_) condicionales basados en snapshots de fecha.
+
+## 🛠️ Tech Stack
+
+- **Framework:** [Next.js 14+](https://nextjs.org/) (App Router)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Prototipado de UI**: [Google Stitch](https://stitch.withgoogle.com/)
+- **Gestión de Estado:** [Zustand](https://zustand-demo.pmnd.rs/)
+- **Librería de UI:** [Shadcn/UI](https://ui.shadcn.com/)
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+- **Iconos:** [Lucide React](https://lucide.dev/)
+- **Linter & Calidad:** Code Spell Checker (Español/Inglés) & ESLint
+
+## 📸 Capturas de Pantalla
+
+| Vista Principal                                      |
+| ---------------------------------------------------- |
+| ![Grilla con Streams](./public/screenshots/grid.png) |
+
+| Modal de Información                               | Modal de Edición                                   |
+| -------------------------------------------------- | -------------------------------------------------- |
+| ![Modal Info](./public/screenshots/modal-info.png) | ![Modal Info](./public/screenshots/modal-edit.png) |
+
+## 📂 Arquitectura del Proyecto
+
+```text
+src/
+├── app/                  # Rutas y layout principal de Next.js
+├── components/
+│   ├── common/           # Componentes compartidos y reutilizables de la aplicación
+│   ├── dashboard/        # Grilla de transmisiones, tarjetas y controles principales
+│   ├── modals/           # Modales de gestión (Información, Edición y Formulario)
+│   ├── providers/        # Proveedores de contexto global y configuración
+│   └── ui/               # Componentes atómicos de Shadcn/UI (Dialog, Button, Badge, etc.)
+├── lib/                  # Configuraciones e integraciones de librerías secundarias
+├── store/                # Estado global centralizado con Zustand (useStreamStore, useModalStore)
+├── types/                # Definiciones e interfaces de TypeScript (Stream, Encoder, Status)
+└── utils/                # Funciones helper puras (calculateStreamStatus, formateo de fechas)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 💻 Configuración Local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clonar el repositorio:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone [https://github.com/WilmerSoto/basquetpass-stream-manager.git](https://github.com/WilmerSoto/basquetpass-stream-manager.git)
+   cd basquetpass-stream-manager
+   ```
 
-## Learn More
+2. **Instalar dependencias:**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   # o
+   pnpm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Iniciar el servidor de desarrollo:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm run dev
+   # o
+   pnpm dev
+   ```
