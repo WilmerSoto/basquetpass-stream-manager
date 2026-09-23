@@ -5,7 +5,9 @@ import { calculateStreamStatus } from "@/utils/streamUtils";
 import TimezoneDisplay from "@/components/common/TimezoneDisplay";
 import StreamCardHeaderDropdown from "@/components/dashboard/StreamCardHeaderDropdown";
 import { useState } from "react";
-import { Link2Off } from "lucide-react";
+import { Link2Off, MonitorCog } from "lucide-react";
+import { useModalStore } from "@/store/useModalStore";
+import { Button } from "@/components/ui/button";
 
 interface StreamCardProps {
   stream: Stream;
@@ -13,6 +15,8 @@ interface StreamCardProps {
 }
 
 export default function StreamCard({ stream, currentTime }: StreamCardProps) {
+  const openFormModal = useModalStore((state) => state.openFormModal);
+
   const currentStatus = calculateStreamStatus(
     stream.startTime,
     stream?.link,
@@ -56,14 +60,20 @@ export default function StreamCard({ stream, currentTime }: StreamCardProps) {
           ></iframe>
         ) : (
           <div>
-            <div className="bg-accent flex flex-col items-center rounded-2xl p-3">
+            <div className="bg-accent flex flex-col items-center gap-2 rounded-2xl p-4">
               <Link2Off className="text-primary" />
-              <p className="text-lg font-bold">
-                Link de Partido no configurado
-              </p>
-              <p className="text-muted-foreground text-sm">
-                Configuralo con el botón de edición
-              </p>
+              <div className="flex flex-col items-center text-center">
+                <p className="text-lg font-bold">
+                  Esperando URL de Transmisión
+                </p>
+                <p className="text-muted-foreground text-sm">
+                  El partido fue registrado pero no cuenta con link asignado
+                </p>
+              </div>
+              <Button onClick={() => openFormModal(stream)}>
+                <MonitorCog />
+                Editar
+              </Button>
             </div>
           </div>
         )}
