@@ -47,7 +47,7 @@ export default function StreamCard({ stream, currentTime }: StreamCardProps) {
       <CardContent className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-black p-0">
         <iframe
           key={refreshKey}
-          src={"https://www.youtube.com/embed/zNb2ywbybYA?si=kjJURqU2S-WNSa8T"}
+          src={stream.link}
           className="block aspect-video h-full max-h-full w-full max-w-full border-0"
           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
           allowFullScreen
