@@ -1,5 +1,3 @@
-"use client";
-
 import { CalendarCog } from "lucide-react";
 import {
   Dialog,
@@ -10,20 +8,22 @@ import {
 import StreamForm from "@/components/modals/StreamForm";
 import { useModalStore } from "@/store/useModalStore";
 
-export default function AddStreamModal() {
+export default function StreamFormModal() {
   const { isFormOpen, streamToEdit, closeFormModal } = useModalStore();
   return (
     <Dialog open={isFormOpen} onOpenChange={closeFormModal}>
       <DialogContent
-        className={"bg-accent max-h-[95vh] min-w-300 overflow-y-auto"}
+        className={
+          "bg-accent max-h-[95vh] min-w-300 overflow-y-auto rounded-none"
+        }
       >
-        <DialogHeader>
+        <DialogHeader className="">
           <DialogTitle
             className={
               "flex items-center justify-center gap-2 text-center text-lg font-bold"
             }
           >
-            <CalendarCog />
+            <CalendarCog className="text-primary" />
             {Boolean(streamToEdit)
               ? "Editar Transmisión"
               : "Añadir Transmisión"}

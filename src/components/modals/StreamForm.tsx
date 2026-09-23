@@ -12,7 +12,13 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Plus, TriangleAlert, XIcon } from "lucide-react";
+import {
+  AlarmClock,
+  DatabasePlus,
+  Plus,
+  TriangleAlert,
+  XIcon,
+} from "lucide-react";
 import { AR } from "country-flag-icons/react/3x2";
 import StreamScheduleBreakdown from "@/components/common/StreamScheduleBreakdown";
 import { Button } from "@/components/ui/button";
@@ -133,7 +139,13 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
               La hora ingresada del partido debe esta en zona horaria Argentina
             </AlertDescription>
           </Alert>
-          <StreamScheduleBreakdown startTimeArt={currentStartTime} />
+          <div className="flex flex-col items-center gap-2 pt-4">
+            <div className="flex items-center gap-2">
+              <AlarmClock />
+              <h1 className="font-extrabold">CALCULO DINÁMICO DE LAS HORAS</h1>
+            </div>
+            <StreamScheduleBreakdown startTimeArt={currentStartTime} />
+          </div>
         </div>
         <Controller
           name="link"
@@ -151,103 +163,105 @@ export default function StreamForm({ onClose, initialData }: StreamFormsProps) {
             </Field>
           )}
         />
-        {/*Array dinamico de VMs*/}
-        <FieldSet className="bg-card gap-4 pb-4">
-          <FieldLegend
-            variant="label"
-            className="bg-card flex w-full items-center justify-between px-4 pt-1.5"
-          >
-            <h1>Encoder(s)</h1>
-            {/* Botón para agregar una nueva fila al array */}
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="border-primary w-48 border"
-              onClick={() => append({ number: "", url: "" })}
+        {/*Array dinámico de VMs*/}
+        <div className="bg-card">
+          <h1 className="flex gap-2 px-4 pt-4 text-xl">
+            <DatabasePlus /> Datos de Infraestructura{" "}
+          </h1>
+          <FieldSet className="border-b-accent gap-4 border-b pb-4">
+            <FieldLegend
+              variant="label"
+              className="bg-card flex w-full items-center justify-between px-4 pt-1.5"
             >
-              <Plus />
-              Añadir encoder
-            </Button>
-          </FieldLegend>
-          <FieldDescription className="px-4">
-            Info de los encoder(s) a usar. Número y link de configuración
-          </FieldDescription>
-
-          <FieldGroup className="gap-4 px-4">
-            {/* .map genera una fila horizontal por cada encoder */}
-            {fields.map((field, index) => (
-              <div key={field.id} className="flex items-start gap-2">
-                {/* Controller 1: Número del Encoder */}
-                <Controller
-                  name={`encoders.${index}.number`}
-                  control={control}
-                  render={({ field: controllerField, fieldState }) => (
-                    <div className="border-primary w-32 rounded-md border">
-                      <Input
-                        {...controllerField}
-                        placeholder="# Ej: 100"
-                        aria-invalid={fieldState.invalid}
-                      />
-                      {fieldState.error && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </div>
+              <h1>Encoder(s)</h1>
+              {/* Botón para agregar una nueva fila al array */}
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="border-primary w-48 border"
+                onClick={() => append({ number: "", url: "" })}
+              >
+                <Plus />
+                Añadir encoder
+              </Button>
+            </FieldLegend>
+            <FieldDescription className="px-4">
+              Info de los encoder(s) a usar. Número y link de configuración
+            </FieldDescription>
+            <FieldGroup className="gap-4 px-4">
+              {/* .map genera una fila horizontal por cada encoder */}
+              {fields.map((field, index) => (
+                <div key={field.id} className="flex items-start gap-2">
+                  {/* Controller 1: Número del Encoder */}
+                  <Controller
+                    name={`encoders.${index}.number`}
+                    control={control}
+                    render={({ field: controllerField, fieldState }) => (
+                      <div className="border-primary w-32 rounded-md border">
+                        <Input
+                          {...controllerField}
+                          placeholder="# Ej: 100"
+                          aria-invalid={fieldState.invalid}
+                        />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </div>
+                    )}
+                  />
+                  {/* Controller 2: URL del Encoder */}
+                  <Controller
+                    name={`encoders.${index}.url`}
+                    control={control}
+                    render={({ field: controllerField, fieldState }) => (
+                      <div className="border-primary flex-1 rounded-md border">
+                        <Input
+                          {...controllerField}
+                          type="url"
+                          placeholder="https://..."
+                          aria-invalid={fieldState.invalid}
+                        />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </div>
+                    )}
+                  />
+                  {/* Botón de eliminar fila */}
+                  {fields.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => remove(index)}
+                      aria-label={`Quitar encoder ${index + 1}`}
+                      className="text-muted-foreground hover:text-destructive shrink-0"
+                    >
+                      <XIcon className="h-4 w-4" />
+                    </Button>
                   )}
+                </div>
+              ))}
+            </FieldGroup>
+          </FieldSet>
+          <Controller
+            name="vmIp"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid} className="bg-card p-4">
+                <FieldLabel>Ip de la Maquina Virtual</FieldLabel>
+                <Input
+                  {...field}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="192.168.1.1"
+                  className="border-primary rounded-md border"
+                  autoComplete="off"
                 />
-
-                {/* Controller 2: URL del Encoder */}
-                <Controller
-                  name={`encoders.${index}.url`}
-                  control={control}
-                  render={({ field: controllerField, fieldState }) => (
-                    <div className="border-primary flex-1 rounded-md border">
-                      <Input
-                        {...controllerField}
-                        type="url"
-                        placeholder="https://..."
-                        aria-invalid={fieldState.invalid}
-                      />
-                      {fieldState.error && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </div>
-                  )}
-                />
-
-                {/* Botón de eliminar fila */}
-                {fields.length > 1 && (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => remove(index)}
-                    aria-label={`Quitar encoder ${index + 1}`}
-                    className="text-muted-foreground hover:text-destructive shrink-0"
-                  >
-                    <XIcon className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            ))}
-          </FieldGroup>
-        </FieldSet>
-        <Controller
-          name="vmIp"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="bg-card p-4">
-              <FieldLabel>Ip de la Maquina Virtual</FieldLabel>
-              <Input
-                {...field}
-                aria-invalid={fieldState.invalid}
-                placeholder="192.168.1.1"
-                className="border-primary rounded-md border"
-                autoComplete="off"
-              />
-            </Field>
-          )}
-        />
+              </Field>
+            )}
+          />
+        </div>
         {/* Botón de Submit */}
         <Button type="submit" className="">
           {initialData ? "Guardar Cambios" : "Añadir Transmisión"}

@@ -17,10 +17,6 @@ export default function StreamScheduleBreakdown({
   const timeline = getStreamTimeline(startTimeArt);
   return (
     <div className="flex flex-col gap-2 font-mono">
-      <div className="flex items-center gap-2">
-        <AlarmClock />
-        <h1 className="font-extrabold">CALCULO DINAMICO DE LAS HORAS</h1>
-      </div>
       <div className="grid grid-cols-3 gap-3">
         {SCHEDULE_BREAKDOWN.map((config) => {
           const Icon = config.icon;

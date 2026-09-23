@@ -1,11 +1,14 @@
+"use client";
 import DeleteAllModal from "@/components/modals/DeleteAllModal";
 import DeleteModal from "@/components/modals/DeleteModal";
-import AddStreamModal from "@/components/modals/StreamFormModal";
+import StreamDetailsModal from "@/components/modals/StreamDetailsModal";
+import StreamFormModal from "@/components/modals/StreamFormModal";
 
 export default function ModalProvider() {
   return (
     <>
-      <AddStreamModal />
+      <StreamFormModal />
+      <StreamDetailsModal />
       <DeleteAllModal />
       <DeleteModal />
     </>

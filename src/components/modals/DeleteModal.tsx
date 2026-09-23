@@ -1,5 +1,3 @@
-"use client";
-
 import { useModalStore } from "@/store/useModalStore";
 import {
   Dialog,
