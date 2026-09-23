@@ -13,7 +13,7 @@ const HeaderStatus = [
   { type: "pending" },
 ] as const;
 
-// TO DO: Añadir logica de contador para cada Badge
+// TO DO: Añadir lógica de contador para cada Badge
 export default function Header() {
   const openFormModal = useModalStore((state) => state.openFormModal);
   const openDeleteAllModal = useModalStore((state) => state.openDeleteAllModal);

@@ -1,4 +1,4 @@
-import { CalendarCog } from "lucide-react";
+import { CalendarCog, ClockPlus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -23,13 +23,23 @@ export default function StreamFormModal() {
               "flex items-center justify-center gap-2 text-center text-lg font-bold"
             }
           >
-            <CalendarCog className="text-primary" />
-            {Boolean(streamToEdit)
-              ? "Editar Transmisión"
-              : "Añadir Transmisión"}
+            {streamToEdit ? (
+              <>
+                <CalendarCog className="text-primary" />
+                Editar Transmisión
+              </>
+            ) : (
+              <>
+                <ClockPlus className="text-primary" />
+                Añadir Transmisión
+              </>
+            )}
           </DialogTitle>
         </DialogHeader>
-        <StreamForm onClose={() => closeFormModal()} />
+        <StreamForm
+          onClose={() => closeFormModal()}
+          initialData={streamToEdit ?? undefined}
+        />
       </DialogContent>
     </Dialog>
   );

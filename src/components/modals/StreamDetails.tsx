@@ -1,14 +1,36 @@
 import StreamScheduleBreakdown from "@/components/common/StreamScheduleBreakdown";
 import { useModalStore } from "@/store/useModalStore";
 import { Button } from "@/components/ui/button";
-import { AlarmClockCheck, Check, Copy, Database, LinkIcon } from "lucide-react";
+import {
+  AlarmClockCheck,
+  Check,
+  Copy,
+  Database,
+  LinkIcon,
+  Settings2,
+  Trash,
+} from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { calculateStreamStatus } from "@/utils/streamUtils";
 import StatusBadge from "@/components/common/StatusBadge";
 
 export default function StreamDetails() {
-  const { streamForInfo } = useModalStore();
+  const { streamForInfo, closeInfoModal } = useModalStore();
+  const openFormModal = useModalStore((state) => state.openFormModal);
+  const openDeleteModal = useModalStore((state) => state.openDeleteModal);
+
+  const handleOpenEdit = () => {
+    if (!streamForInfo) return;
+    closeInfoModal();
+    openFormModal(streamForInfo);
+  };
+
+  const handleOpenDelete = () => {
+    if (!streamForInfo) return;
+    closeInfoModal();
+    openDeleteModal(streamForInfo);
+  };
 
   const currentStatus = streamForInfo
     ? calculateStreamStatus(
@@ -99,6 +121,16 @@ export default function StreamDetails() {
             ))}
           </div>
         </div>
+      </div>
+      <div className="flex justify-between gap-2">
+        <Button onClick={handleOpenDelete} variant="destructive">
+          <Trash data-icon="inline-start" />
+          Eliminar Partido
+        </Button>
+        <Button onClick={handleOpenEdit}>
+          <Settings2 data-icon="inline-start" />
+          Editar Partido
+        </Button>
       </div>
     </div>
   );
