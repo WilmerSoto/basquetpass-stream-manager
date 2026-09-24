@@ -27,10 +27,11 @@ Esta herramienta fue desarrollada de manera independiente para optimizar el fluj
 
 ## 🛠️ Tech Stack
 
-- **Framework:** [Next.js 14+](https://nextjs.org/) (App Router)
+- **Framework:** [Next.js 14+](https://nextjs.org/) (App Router, exportación estática)
 - **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Escritorio:** [Tauri 2](https://tauri.app/)
 - **Prototipado de UI**: [Google Stitch](https://stitch.withgoogle.com/)
-- **Gestión de Estado:** [Zustand](https://zustand-demo.pmnd.rs/)
+- **Gestión de Estado:** [Zustand](https://zustand-demo.pmnd.rs/)(con `persist` en `localStorage`)
 - **Librería de UI:** [Shadcn/UI](https://ui.shadcn.com/)
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
 - **Iconos:** [Lucide React](https://lucide.dev/)
@@ -49,19 +50,74 @@ Esta herramienta fue desarrollada de manera independiente para optimizar el fluj
 ## 📂 Arquitectura del Proyecto
 
 ```text
-src/
-├── app/                  # Rutas y layout principal de Next.js
-├── components/
-│   ├── common/           # Componentes compartidos y reutilizables de la aplicación
-│   ├── dashboard/        # Grilla de transmisiones, tarjetas y controles principales
-│   ├── modals/           # Modales de gestión (Información, Edición y Formulario)
-│   ├── providers/        # Proveedores de contexto global y configuración
-│   └── ui/               # Componentes atómicos de Shadcn/UI (Dialog, Button, Badge, etc.)
-├── lib/                  # Configuraciones e integraciones de librerías secundarias
-├── store/                # Estado global centralizado con Zustand (useStreamStore, useModalStore)
-├── types/                # Definiciones e interfaces de TypeScript (Stream, Encoder, Status)
-└── utils/                # Funciones helper puras (calculateStreamStatus, formateo de fechas)
+├── src/
+│   ├── app/                  # Rutas y layout principal de Next.js
+│   ├── components/
+│   │   ├── common/           # Componentes compartidos y reutilizables de la aplicación
+│   │   ├── dashboard/        # Grilla de transmisiones, tarjetas y controles principales
+│   │   ├── modals/           # Modales de gestión (Información, Edición y Formulario)
+│   │   ├── providers/        # Proveedores de contexto global y configuración
+│   │   └── ui/               # Componentes atómicos de Shadcn/UI (Dialog, Button, Badge, etc.)
+│   ├── lib/                  # Configuraciones e integraciones de librerías secundarias
+│   ├── store/                # Estado global centralizado con Zustand (useStreamStore, useModalStore)
+│   ├── types/                # Definiciones e interfaces de TypeScript (Stream, Encoder, Status)
+│   └── utils/                # Funciones helper puras (calculateStreamStatus, formateo de fechas)
+└── src-tauri/                # Capa de escritorio (Tauri)
+    ├── src/                  # Código Rust (punto de entrada de la app)
+    ├── icons/                # Iconos generados para el ejecutable
+    ├── capabilities/         # Permisos de la ventana
+    └── tauri.conf.json       # Configuración de la app (nombre, ventana, identifier)
 ```
+
+## 🖥️ Versión de Escritorio (Tauri)
+
+La app puede empaquetarse como un ejecutable de Windows usando [Tauri](https://tauri.app/). Tauri no ejecuta Node: carga los archivos estáticos generados por Next.js dentro de un WebView del sistema (WebView2), lo que da como resultado una app liviana (~5-10 MB) con su propia ventana.
+
+### ¿Cómo funciona?
+
+Como la app es 100% frontend (sin API routes, Server Actions, middleware ni base de datos), Next.js se configura con `output: 'export'`. Al hacer `build`, se genera la carpeta `out/` con HTML, CSS y JS estáticos, y Tauri empaqueta esa carpeta dentro del `.exe`.
+
+```text
+Next.js (output: 'export')  →  out/  →  Tauri (WebView2)  →  bp-stream-manager.exe
+```
+
+### Requisitos para compilar
+
+Solo son necesarios si vas a generar el ejecutable (no para desarrollar con `pnpm dev`):
+
+1. **Rust:** instalar desde [rustup.rs](https://rustup.rs).
+2. **Microsoft C++ Build Tools:** con la carga de trabajo _"Desarrollo para el escritorio con C++"_ ([descarga](https://visualstudio.microsoft.com/visual-cpp-build-tools/)).
+3. **WebView2:** ya viene incluido en Windows 10/11.
+   Verifica la instalación de Rust con `rustc --version`.
+
+### Comandos
+
+| Comando            | Qué hace                                                                                       |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| `pnpm dev`         | Servidor de desarrollo en el navegador (`http://localhost:3000`). **Uso diario al programar.** |
+| `pnpm tauri dev`   | Abre la app en una ventana de Tauri con hot reload (opcional).                                 |
+| `pnpm build`       | Genera la exportación estática en `out/`.                                                      |
+| `pnpm tauri build` | Compila el ejecutable y los instaladores.                                                      |
+
+> 💡 **Flujo recomendado:** desarrolla con `pnpm dev` en el navegador. Usa `pnpm tauri dev` o `pnpm tauri build` solo cuando quieras probar o generar la versión de escritorio.
+
+> ℹ️ `pnpm start` **ya no funciona**: con exportación estática Next.js no tiene servidor de producción. Para ver el build en el navegador, sirve la carpeta `out/` con `pnpm dlx serve out`.
+
+### Salida de la compilación
+
+Tras ejecutar `pnpm tauri build`, los archivos se generan en `src-tauri/target/release/`:
+
+- `app.exe`: ejecutable portable. Se puede copiar a cualquier carpeta y crear un acceso directo.
+- `bundle/nsis/*.exe` y `bundle/msi/*.msi`: instaladores de Windows.
+  Para actualizar la app tras cambiar el código, basta con volver a ejecutar `pnpm tauri build`.
+
+### Persistencia de datos
+
+Zustand guarda el estado en `localStorage`, que en la versión de escritorio vive dentro de WebView2:
+
+- **Persiste** entre cierres de la app y entre recompilaciones.
+- **No se comparte con el navegador:** la app de escritorio usa un origen distinto (`tauri.localhost`) al de `localhost:3000`, por lo que cada una tiene sus datos independientes. Lo mismo aplica entre `pnpm tauri dev` y el `.exe` compilado.
+- **No cambies el `identifier`** de `src-tauri/tauri.conf.json` (`com.basquetpass.streammanager`) una vez que empieces a usar la app, ya que los datos guardados se asocian a él y se perderían.
 
 ## 💻 Configuración Local
 
@@ -87,3 +143,12 @@ src/
    # o
    pnpm dev
    ```
+
+4. **(Opcional) Generar la app de escritorio:**
+   Con los [requisitos](#requisitos-para-compilar) instalados:
+
+```bash
+   pnpm tauri build
+```
+
+El ejecutable queda en `src-tauri/target/release/app.exe`.
