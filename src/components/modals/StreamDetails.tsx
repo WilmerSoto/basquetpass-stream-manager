@@ -40,11 +40,11 @@ export default function StreamDetails() {
       )
     : null;
 
-  const [copied, setCopied] = useState(false);
-  const handleCopy = (textToCopy: string) => {
-    navigator.clipboard.writeText(textToCopy);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const handleCopy = async (text: string, id: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
   };
   return (
     <div className="flex flex-col gap-4 font-mono text-base">
@@ -86,9 +86,9 @@ export default function StreamDetails() {
               <Button
                 variant="default"
                 size="sm"
-                onClick={() => handleCopy(streamForInfo?.link ?? "")}
+                onClick={() => handleCopy(streamForInfo?.link ?? "", "ip-link")}
               >
-                {copied ? (
+                {copiedId === "ip-link" ? (
                   <>
                     <Check className="h-4 w-4 text-green-500" />
                     <span>Copiado!</span>
@@ -117,6 +117,25 @@ export default function StreamDetails() {
                 >
                   {stream.url ?? ""}
                 </Link>
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={() =>
+                    handleCopy(stream.url ?? "", `encoder-${stream.number}`)
+                  }
+                >
+                  {copiedId === `encoder-${stream.number}` ? (
+                    <>
+                      <Check className="h-4 w-4 text-green-500" />
+                      <span>Copiado!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4" />
+                      <span>Copiar</span>
+                    </>
+                  )}
+                </Button>
               </div>
             ))}
           </div>
